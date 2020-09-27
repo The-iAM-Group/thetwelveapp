@@ -6,6 +6,8 @@
  * @flow strict-local
  */
 
+import 'react-native-gesture-handler';
+import {NavigationContainer} from '@react-navigation/native';
 import React, {useState, useEffect} from 'react';
 import {View, Text} from 'react-native';
 import auth from '@react-native-firebase/auth';
@@ -32,19 +34,22 @@ function App() {
     return null;
   }
 
+  let content;
   if (!user) {
-    return (
+    content = (
       <View>
         <Text>Login</Text>
       </View>
     );
+  } else {
+    content = (
+      <View>
+        <Text>Welcome {user.email}</Text>
+      </View>
+    );
   }
 
-  return (
-    <View>
-      <Text>Welcome {user.email}</Text>
-    </View>
-  );
+  return <NavigationContainer>{content}</NavigationContainer>;
 }
 
 const styles = StyleSheet.create({});
