@@ -8,9 +8,14 @@
 
 import 'react-native-gesture-handler';
 import {NavigationContainer} from '@react-navigation/native';
+import {createStackNavigator} from '@react-navigation/stack';
 import React, {useState, useEffect} from 'react';
-import {View, Text} from 'react-native';
 import auth from '@react-native-firebase/auth';
+import LoadingScreen from './flows/auth/loading';
+import Login from './flows/auth/login';
+import ForgotPassword from './flows/auth/forgot-password';
+import Register from './flows/auth/register';
+import Home from './home';
 
 function App() {
   // Set an initializing state whilst Firebase connects
@@ -30,28 +35,32 @@ function App() {
     return subscriber; // unsubscribe on unmount
   }, []);
 
+  const Stack = createStackNavigator();
+
   if (initializing) {
-    return null;
+    return <LoadingScreen />;
   }
 
   let content;
   if (!user) {
     content = (
-      <View>
-        <Text>Login</Text>
-      </View>
+      <Stack.Navigator>
+        <Stack.screen name="Login" component={Login} />
+        <Stack.screen name="Forgot Password" component={ForgotPassword} />
+        <Stack.screen name="Register" component={Register} />
+      </Stack.Navigator>
     );
   } else {
     content = (
-      <View>
-        <Text>Welcome {user.email}</Text>
-      </View>
+      <Stack.Navigator>
+        <Stack.screen name="Home" component={Home} />
+      </Stack.Navigator>
     );
   }
 
   return <NavigationContainer>{content}</NavigationContainer>;
 }
 
-const styles = StyleSheet.create({});
+//const styles = StyleSheet.create({});
 
 export default App;
