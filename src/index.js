@@ -23,14 +23,14 @@ function App() {
   const [user, setUser] = useState();
 
   // Handle user state changes
-  function onAuthStateChanged(theUser) {
+  const onAuthStateChanged = (theUser) => {
     setUser(theUser);
     if (initializing) {
       setInitializing(false);
     }
-  }
+  };
 
-  useEffect(() => {
+  useEffect((onAuthStateChanged) => {
     const subscriber = auth().onAuthStateChanged(onAuthStateChanged);
     return subscriber; // unsubscribe on unmount
   }, []);
@@ -38,7 +38,16 @@ function App() {
   const Stack = createStackNavigator();
 
   if (initializing) {
-    return <LoadingScreen />;
+    //return <LoadingScreen />;
+    return (
+      <NavigationContainer>
+        <Stack.Navigator>
+          <Stack.Screen name="Login" component={Login} />
+          <Stack.Screen name="Forgot Password" component={ForgotPassword} />
+          <Stack.Screen name="Register" component={Register} />
+        </Stack.Navigator>
+      </NavigationContainer>
+    );
   }
 
   let content;

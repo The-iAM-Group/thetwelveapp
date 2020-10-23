@@ -5,7 +5,7 @@ export default function LoadingScreen(props) {
   const [username, setUsername] = React.useState('');
   const [password, setPassword] = React.useState('');
 
-  const {signIn} = React.useContext(props.authContext);
+  //const {signIn} = React.useContext(props.authContext);
   return (
     <View>
       <TextInput
@@ -19,7 +19,7 @@ export default function LoadingScreen(props) {
         onChangeText={setPassword}
         secureTextEntry
       />
-      <Button title="Sign in" onPress={() => signIn({username, password})} />
+      <Button title="Sign in" onPress={() => console.log('hello there')} />
     </View>
   );
 }
